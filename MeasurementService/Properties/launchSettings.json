@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MeasurementService": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

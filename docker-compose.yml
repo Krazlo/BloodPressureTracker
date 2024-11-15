@@ -5,3 +5,42 @@ services:
       - "8080:8080"
     volumes:
       - ./docs:/usr/local/structurizr
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+  measurementservice:
+    image: ${DOCKER_REGISTRY-}measurementservice
+    build:
+      context: .
+      dockerfile: MeasurementService/Dockerfile
+  patientservice:
+    image: ${DOCKER_REGISTRY-}patientservice
+    build:
+      context: .
+      dockerfile: PatientService/Dockerfile
+  doctorui:
+    image: ${DOCKER_REGISTRY-}doctorui
+    build:
+      context: .
+      dockerfile: DoctorUI/Dockerfile
+  mysql:
+     image: mysql:latest
+     cap_add:
+      - SYS_NICE
+     restart: always
+     ports:
+      - 1433:1433
+     environment:
+       MYSQL_ROOT_PASSWORD: "S3cr3tP4sSw0rd#123"
+       MYSQL_DATABASE: mysqlDB
+       MYSQL_USER: sa
+       MYSQL_PASSWORD: "S3cr3tP4sSw0rd#123"
+     volumes:
+      - db:/var/lib/mysql
+      # - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+ db:
+  driver: local
