@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientService", "PatientSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoctorUI", "DoctorUI\DoctorUI.csproj", "{3B109635-127D-4A00-9A2A-D513F6C7AE84}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "Helpers\Helpers.csproj", "{7D491908-1C98-47CF-A8B5-6B1279B15D69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{3B109635-127D-4A00-9A2A-D513F6C7AE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B109635-127D-4A00-9A2A-D513F6C7AE84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B109635-127D-4A00-9A2A-D513F6C7AE84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D491908-1C98-47CF-A8B5-6B1279B15D69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D491908-1C98-47CF-A8B5-6B1279B15D69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D491908-1C98-47CF-A8B5-6B1279B15D69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D491908-1C98-47CF-A8B5-6B1279B15D69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
