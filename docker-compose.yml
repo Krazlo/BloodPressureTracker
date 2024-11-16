@@ -5,26 +5,51 @@ services:
       - "8080:8080"
     volumes:
       - ./docs:/usr/local/structurizr
-  api:
-    image: ${DOCKER_REGISTRY-}api
-    build:
-      context: .
-      dockerfile: Api/Dockerfile
-  measurementservice:
-    image: ${DOCKER_REGISTRY-}measurementservice
-    build:
-      context: .
-      dockerfile: MeasurementService/Dockerfile
+
   patientservice:
     image: ${DOCKER_REGISTRY-}patientservice
     build:
       context: .
       dockerfile: PatientService/Dockerfile
+    ports:
+     - "5001:80"
+    environment:
+      - CONNECTION_STRING=Server=db;Database=mysqlDB;User=sa;Password=S3cr3tP4sSw0rd#123
+    networks: 
+      - appnetwork
+
+  measurementservice:
+    image: ${DOCKER_REGISTRY-}measurementservice
+    build:
+      context: .
+      dockerfile: MeasurementService/Dockerfile
+    ports:
+     - "5002:80"
+    environment:
+      - CONNECTION_STRING=Server=db;Database=mysqlDB;User=sa;Password=S3cr3tP4sSw0rd#123
+    networks: 
+      - appnetwork
+
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    ports:
+     - "5003:80"
+    networks: 
+      - appnetwork
+
   doctorui:
     image: ${DOCKER_REGISTRY-}doctorui
+    ports: 
+     - "5004:80"
     build:
       context: .
       dockerfile: DoctorUI/Dockerfile
+    networks: 
+      - appnetwork
+
   mysql:
      image: mysql:latest
      cap_add:
@@ -40,6 +65,12 @@ services:
      volumes:
       - db:/var/lib/mysql
       # - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+     networks: 
+      - appnetwork
+
+networks: 
+ appnetwork:
+  driver: bridge
 
 volumes:
  db:
