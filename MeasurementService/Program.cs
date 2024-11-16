@@ -1,11 +1,36 @@
-﻿using DB;
+using DB;
+using MeasurementService.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using MeasurementService;
 
-var serviceProvider = new ServiceCollection().AddDbContext<Context>(options =>
-options.UseMySql(
-                "Server=localhost;Database=mysqlDB;User=sa;Password=S3cr3tP4sSw0rd#123;", new MySqlServerVersion(new Version(8, 0, 23))))
-    .AddScoped<IMService, MService>()
-    .BuildServiceProvider();
+var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
+
+builder.Services.AddDbContext<Context>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        new MySqlServerVersion(new Version(8, 0, 30))
+    ));
+builder.Services.AddScoped<IMeasurementRepository, MeasurementRepository>();
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
