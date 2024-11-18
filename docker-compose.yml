@@ -12,7 +12,7 @@ services:
       context: .
       dockerfile: PatientService/Dockerfile
     ports:
-     - "5001:80"
+     - "5001:5001"
     environment:
       - ConnectionStrings__DefaultConnection=db;Database=mysqlDB;User=sa;Password=S3cr3tP4sSw0rd#123
     networks: 
@@ -24,7 +24,7 @@ services:
       context: .
       dockerfile: MeasurementService/Dockerfile
     ports:
-     - "5002:80"
+     - "5002:5002"
     environment:
       - ConnectionStrings__DefaultConnection=Server=db;Database=mysqlDB;User=sa;Password=S3cr3tP4sSw0rd#123
     networks: 
@@ -36,14 +36,14 @@ services:
   #     context: .
   #     dockerfile: Api/Dockerfile
   #   ports:
-  #    - "5003:80"
+  #    - "5003:5003"
   #   networks: 
   #     - appnetwork
 
   doctorui:
     image: ${DOCKER_REGISTRY-}doctorui
     ports: 
-     - "5004:80"
+     - "8004:8004"
     build:
       context: .
       dockerfile: DoctorUI/Dockerfile
