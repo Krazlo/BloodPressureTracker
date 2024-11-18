@@ -1,22 +1,15 @@
 services:
-  structurizr:
-    image: structurizr/lite
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./docs:/usr/local/structurizr
-
   patientservice:
     image: ${DOCKER_REGISTRY-}patientservice
     build:
       context: .
       dockerfile: PatientService/Dockerfile
     ports:
+     - "5000:5000"
      - "5001:5001"
-    environment:
-      - ConnectionStrings__DefaultConnection=db;Database=mysqlDB;User=sa;Password=S3cr3tP4sSw0rd#123
     networks: 
-      - appnetwork
+     - appnetwork
+     - default
 
   measurementservice:
     image: ${DOCKER_REGISTRY-}measurementservice
@@ -24,11 +17,14 @@ services:
       context: .
       dockerfile: MeasurementService/Dockerfile
     ports:
-     - "5002:5002"
+     - "6000:6000"
+     - "6001:6001"
     environment:
       - ConnectionStrings__DefaultConnection=Server=db;Database=mysqlDB;User=sa;Password=S3cr3tP4sSw0rd#123
     networks: 
       - appnetwork
+      - default
+
 
   # api:
   #   image: ${DOCKER_REGISTRY-}api
@@ -43,34 +39,48 @@ services:
   doctorui:
     image: ${DOCKER_REGISTRY-}doctorui
     ports: 
-     - "8004:8004"
+     - "7000:7000"
     build:
       context: .
       dockerfile: DoctorUI/Dockerfile
     networks: 
       - appnetwork
+      - default
+
 
   mysql:
      image: mysql:latest
      cap_add:
       - SYS_NICE
      restart: always
-     ports:
-      - 1433:1433
      environment:
        MYSQL_ROOT_PASSWORD: "S3cr3tP4sSw0rd#123"
        MYSQL_DATABASE: mysqlDB
        MYSQL_USER: sa
        MYSQL_PASSWORD: "S3cr3tP4sSw0rd#123"
+     ports:
+      - 1433:1433
      volumes:
       - db:/var/lib/mysql
       # - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
      networks: 
       - appnetwork
+      - default
+
+  structurizr:
+    image: structurizr/lite
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./docs:/usr/local/structurizr
 
 networks: 
  appnetwork:
   driver: bridge
+ default:
+    external: true
+    name: microservices_net
+  
 
 volumes:
  db:
