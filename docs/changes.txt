@@ -1,0 +1,29 @@
+Ændringer er sådan cirka:
++ => implementeret
+- => ikke implementeret 
+
+Automation over people
+ + CI/CD Pipeline - GitHub Actions
+ + Database Automation - EntityFramework Migrations
+ + Docker Compose -> Infrastructure as Code (IaC) 
+ - Monitoring and Alerts
+
+Async design
+ + Async API (repository functions)
+ + Message Queue -> RabbitMQ
+
+Fault isolation
+ + Microservice Infrastrucutre & Dockerization
+ + Circuit Breakers (Polly) - Hjælper også med Automation over People (automatisk retry, halt), hører også under async design
+ + Retries for API calls, see above
+ - Server Timeouts (forhindring af cascading failures)
+
+Design to be disabled
+ - Feature Flag
+ - Graceful Degradation //Eksempel: Cache measurements lokalt i PatientApp hvis MeasurementService er utilgængelig.
+    	Appsettings.json "FeatureFlags": { "EnableDoctorUI": true }
+ - Health Checking
+ 
+Green Software Architecture
+ - Batch Processing
+ - Lightweight Containers //FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS base
