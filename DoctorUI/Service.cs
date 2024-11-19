@@ -17,7 +17,7 @@ namespace DoctorUI
         {
             try
             {
-                var response = await _httpClient.GetAsync("api/MeasurementController/get"); //Hvordan finder vi API url?
+                var response = await _httpClient.GetAsync("api/MeasurementController"); //Hvordan finder vi API url?
 
                 response.EnsureSuccessStatusCode();
 
@@ -37,7 +37,7 @@ namespace DoctorUI
             {
                 var json = JsonSerializer.Serialize(measurement);
 
-                var response = await _httpClient.PostAsync("api/MeasurementController/put", new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                var response = await _httpClient.PostAsync("api/MeasurementController", new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
 
                 response.EnsureSuccessStatusCode();
 
@@ -77,7 +77,7 @@ namespace DoctorUI
             {
                 var json = JsonSerializer.Serialize(patient);
 
-                var response = await _httpClient.PostAsync("api/PatientController/post", new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
+                var response = await _httpClient.PostAsync("api/PatientController", new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
 
                 response.EnsureSuccessStatusCode();
 

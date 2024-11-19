@@ -1,8 +1,6 @@
 ﻿@using Helpers.Entities
 @using MeasurementService.Repositories
 @using PatientService.Repositories
-@inject IMeasurementRepository MeasurementRepository
-@inject IPatientRepository PatientRepository
 
 <div class="MeasurementPage">
     <h3>Enter Blood Pressure</h3>
@@ -48,29 +46,29 @@
 
         try
         {
-            // Get SSN of the user
-            var patient = await PatientRepository.GetBySSNAsync(PatientSSN);
+            // // Get SSN of the user
+            // var patient = await PatientRepository.GetBySSNAsync(PatientSSN);
 
-            if (patient == null)
-            {
-                Message = "Patient not found.";
-                return;
-            }
+            // if (patient == null)
+            // {
+            //     Message = "Patient not found.";
+            //     return;
+            // }
 
-            // Create a new measurement
-            var newMeasurement = new Measurement
-                {
-                    Systolic = Systolic,
-                    Diastolic = Diastolic,
-                    PatientSSN = patient.SSN,
-                    DateTime = DateTime.Now,
-                    Seen = false
-                };
+            // // Create a new measurement
+            // var newMeasurement = new Measurement
+            //     {
+            //         Systolic = Systolic,
+            //         Diastolic = Diastolic,
+            //         PatientSSN = patient.SSN,
+            //         DateTime = DateTime.Now,
+            //         Seen = false
+            //     };
 
-            // Save the measurement via the repository
-            await MeasurementRepository.AddAsync(newMeasurement);
+            // // Save the measurement via the repository
+            // await MeasurementRepository.AddAsync(newMeasurement);
 
-            Message = "Measurement successfully saved.";
+            // Message = "Measurement successfully saved.";
         }
         catch (Exception ex)
         {
