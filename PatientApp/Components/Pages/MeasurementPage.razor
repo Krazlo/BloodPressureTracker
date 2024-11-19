@@ -4,8 +4,13 @@
 @inject IMeasurementRepository MeasurementRepository
 @inject IPatientRepository PatientRepository
 
-<div class="blood-pressure-input">
+<div class="MeasurementPage">
     <h3>Enter Blood Pressure</h3>
+
+    <div>
+        <label for="patientSSN">Patient SSN:</label>
+        <input id="patientSSN" type="text" @bind="PatientSSN" placeholder="Enter Patient SSN" />
+    </div>
 
     <div>
         <label for="systolic">Systolic:</label>
@@ -26,8 +31,7 @@
 }
 
 @code {
-    [Parameter]
-    public int PatientSSN { get; set; } // User identifier, e.g., SSN or another unique ID
+    public int PatientSSN { get; set; } // User identifier
 
     public int Systolic { get; set; }
     public int Diastolic { get; set; }
@@ -35,7 +39,7 @@
 
     private async Task SubmitMeasurement()
     {
-        // Validate inputs
+        // Validating inputs
         if (Systolic <= 0 || Diastolic <= 0)
         {
             Message = "Please enter valid blood pressure values.";
