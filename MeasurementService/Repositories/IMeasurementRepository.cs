@@ -9,5 +9,6 @@ namespace MeasurementService.Repositories
         Task AddAsync(Measurement measurement);
         Task UpdateAsync(Measurement measurement);
         Task DeleteAsync(int id);
+        Task<IEnumerable<Measurement>> GetAllBySSNAsync(string ssn);
     }
 }

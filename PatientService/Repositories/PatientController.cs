@@ -18,9 +18,9 @@ namespace PatientService.Repositories
             return await _context.Patients.ToListAsync();
         }
 
-        public async Task<Patient?> GetByIdAsync(int id)
+        public async Task<Patient?> GetBySSNAsync(string ssn)
         {
-            return await _context.Patients.FindAsync(id);
+            return await _context.Patients.FindAsync(ssn);
         }
 
         public async Task AddAsync(Patient patient)
@@ -35,9 +35,9 @@ namespace PatientService.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(string ssn)
         {
-            var patient = await GetByIdAsync(id);
+            var patient = await GetBySSNAsync(ssn);
             if (patient != null)
             {
                 _context.Patients.Remove(patient);
