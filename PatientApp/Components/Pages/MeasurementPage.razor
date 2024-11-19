@@ -1,0 +1,76 @@
+﻿@using Helpers.Entities
+@using MeasurementService.Repositories
+@using PatientService.Repositories
+@inject IMeasurementRepository MeasurementRepository
+@inject IPatientRepository PatientRepository
+
+<div class="blood-pressure-input">
+    <h3>Enter Blood Pressure</h3>
+
+    <div>
+        <label for="systolic">Systolic:</label>
+        <input id="systolic" type="number" @bind="Systolic" min="0" placeholder="Enter systolic" />
+    </div>
+
+    <div>
+        <label for="diastolic">Diastolic:</label>
+        <input id="diastolic" type="number" @bind="Diastolic" min="0" placeholder="Enter diastolic" />
+    </div>
+
+    <button class="btn btn-primary" @onclick="SubmitMeasurement">Submit</button>
+</div>
+
+@if (Message != null)
+{
+    <p>@Message</p>
+}
+
+@code {
+    [Parameter]
+    public int PatientSSN { get; set; } // User identifier, e.g., SSN or another unique ID
+
+    public int Systolic { get; set; }
+    public int Diastolic { get; set; }
+    public string? Message { get; set; }
+
+    private async Task SubmitMeasurement()
+    {
+        // Validate inputs
+        if (Systolic <= 0 || Diastolic <= 0)
+        {
+            Message = "Please enter valid blood pressure values.";
+            return;
+        }
+
+        try
+        {
+            // Get SSN of the user
+            var patient = await PatientRepository.GetByIdAsync(PatientSSN);
+
+            if (patient == null)
+            {
+                Message = "Patient not found.";
+                return;
+            }
+
+            // Create a new measurement
+            var newMeasurement = new Measurement
+                {
+                    Systolic = Systolic,
+                    Diastolic = Diastolic,
+                    PatientSSN = patient.SSN,
+                    DateTime = DateTime.Now,
+                    Seen = false
+                };
+
+            // Save the measurement via the repository
+            await MeasurementRepository.AddAsync(newMeasurement);
+
+            Message = "Measurement successfully saved.";
+        }
+        catch (Exception ex)
+        {
+            Message = $"Error: {ex.Message}";
+        }
+    }
+}
