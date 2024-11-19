@@ -1,4 +1,5 @@
 using DB;
+using Helpers.RabbitMQ;
 using Microsoft.EntityFrameworkCore;
 using PatientService.Repositories;
 
@@ -17,6 +18,12 @@ builder.Services.AddDbContext<DB.Context>(options =>
     ));
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 var app = builder.Build();
+
+var rabbitMQSection = builder.Configuration.GetSection("RabbitMQ");
+builder.Services.Configure<RabbitMQSettings>(rabbitMQSection);
+
+var rabbitMQConsumer = app.Services.GetRequiredService<RabbitMQConsumer>();
+await Task.Run(() => rabbitMQConsumer.StartListeningAsync());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

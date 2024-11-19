@@ -1,4 +1,5 @@
 ﻿using Helpers.Entities;
+using Helpers.RabbitMQ;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,24 +11,31 @@ namespace PatientApp
 {
     public class Service
     {
-        private HttpClient _httpClient;
-        private IHttpClientFactory clientFactory;
+        RabbitMQProducer _producer;
+        RabbitMQConsumer _consumer;
 
-        public Service(IHttpClientFactory clientFactory)
+        public Service(RabbitMQProducer producer, RabbitMQConsumer consumer)
         {
-            _httpClient = clientFactory.CreateClient("ExternalServiceClient");
+            _producer = producer;
+            _consumer = consumer;
         }
 
         public async Task<string> GetPatientAsync()
         {
             try
             {
-                var response = await _httpClient.GetAsync("api/PatientController"); //Hvordan finder vi API url?
+                var request = new RequestDetails
+                {
+                    Method = RestSharp.Method.Get,
+                    Url = "api/PatientController",
+                    ReplyToQueue = "app-patient-response-queue"
+                };
+                var requestJson = JsonSerializer.Serialize(request);
+                await _producer.PublishAsync(requestJson);
 
-                response.EnsureSuccessStatusCode();
+                var responseJson = await _consumer.WaitForResponseAsync("app-patient-response-queue");
 
-                var content = await response.Content.ReadAsStringAsync();
-                return content;
+                return responseJson;
             }
             catch (HttpRequestException ex)
             {
@@ -40,11 +48,16 @@ namespace PatientApp
         {
             try
             {
-                var json = JsonSerializer.Serialize(measurement);
+                var request = new RequestDetails
+                {
+                    Method = RestSharp.Method.Post,
+                    Url = "api/MeasurementController",
+                    ReplyToQueue = "app-measurement-response-queue"
+                };
+                var requestJson = JsonSerializer.Serialize(request);
+                await _producer.PublishAsync(requestJson);
 
-                var response = await _httpClient.PostAsync("api/MeasurementController", new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-
-                response.EnsureSuccessStatusCode();
+                var responseJson = await _consumer.WaitForResponseAsync("app-measurement-response-queue");
 
                 return true;
             }

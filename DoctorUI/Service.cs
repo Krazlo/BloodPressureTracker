@@ -1,15 +1,21 @@
 ﻿using Helpers.Entities;
+using Helpers.RabbitMQ;
 using System.Text.Json;
 
 namespace DoctorUI
 {
     public class Service
     {
+        RabbitMQProducer _producer;
+        RabbitMQConsumer _consumer;
         private HttpClient _httpClient;
         private IHttpClientFactory clientFactory;
 
-        public Service(IHttpClientFactory clientFactory)
+
+        public Service(IHttpClientFactory clientFactory, RabbitMQProducer producer, RabbitMQConsumer consumer)
         {
+            _producer = producer;
+            _consumer = consumer;
             _httpClient = clientFactory.CreateClient("ExternalServiceClient");
         }
 
@@ -17,12 +23,18 @@ namespace DoctorUI
         {
             try
             {
-                var response = await _httpClient.GetAsync("api/MeasurementController"); //Hvordan finder vi API url?
+                var request = new RequestDetails
+                {
+                    Method = RestSharp.Method.Get,
+                    Url = "api/MeasurementController",
+                    ReplyToQueue = "ui-measurement-response-queue"
+                };
+                var requestJson = JsonSerializer.Serialize(request);
+                await _producer.PublishAsync(requestJson);
 
-                response.EnsureSuccessStatusCode();
+                var responseJson = await _consumer.WaitForResponseAsync("ui-measurement-response-queue");
 
-                var content = await response.Content.ReadAsStringAsync();
-                return content;
+                return responseJson;
             }
             catch (HttpRequestException ex)
             {

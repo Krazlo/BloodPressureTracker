@@ -1,5 +1,6 @@
 using DoctorUI;
 using DoctorUI.Components;
+using Helpers.RabbitMQ;
 using Polly;
 using Polly.Extensions.Http;
 
@@ -31,7 +32,13 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddHttpClient<Service>("ExternalServiceClient");
 
+var rabbitMQSection = builder.Configuration.GetSection("RabbitMQ");
+builder.Services.Configure<RabbitMQSettings>(rabbitMQSection);
+
 var app = builder.Build();
+
+var rabbitMQConsumer = app.Services.GetRequiredService<RabbitMQConsumer>();
+await Task.Run(() => rabbitMQConsumer.StartListeningAsync());
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

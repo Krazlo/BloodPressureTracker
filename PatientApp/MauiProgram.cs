@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using PatientService.Repositories;
 using Polly.Extensions.Http;
 using Polly;
+using Helpers.RabbitMQ;
 
 namespace PatientApp
 {
@@ -42,13 +43,20 @@ namespace PatientApp
             builder.Services.AddHttpClient<Service>("ExternalServiceClient");
 
             builder.Services.AddMauiBlazorWebView();
+            var rabbitMQSection = builder.Configuration.GetSection("RabbitMQ");
+            builder.Services.Configure<RabbitMQSettings>(rabbitMQSection);
 
-            #if DEBUG
+#if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
             builder.Logging.AddDebug();
-            #endif
+#endif
 
-            return builder.Build();
+            var app = builder.Build();
+
+            var rabbitMQConsumer = app.Services.GetRequiredService<RabbitMQConsumer>();
+            Task.Run(() => rabbitMQConsumer.StartListeningAsync());
+
+            return app;
         }
     }
 }

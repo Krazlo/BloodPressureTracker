@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5"
+  },
+  "RabbitMQ": {
+    "HostName": "localhost",
+    "UserName": "guest",
+    "Password": "guest",
+    "QueueName": "blood-pressure-queue"
+  },
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ]
+}

@@ -37,42 +37,33 @@
 
     private async Task SubmitMeasurement()
     {
-        // Validating inputs
-        if (Systolic <= 0 || Diastolic <= 0)
-        {
-            Message = "Please enter valid blood pressure values.";
-            return;
-        }
+        // // Validating inputs
+        // if (Systolic <= 0 || Diastolic <= 0)
+        // {
+        //     Message = "Please enter valid blood pressure values.";
+        //     return;
+        // }
 
-        try
-        {
-            // // Get SSN of the user
-            // var patient = await PatientRepository.GetBySSNAsync(PatientSSN);
+        // try
+        // {
+        //     // Create a new measurement
+        //     var newMeasurement = new Measurement
+        //         {
+        //             Systolic = Systolic,
+        //             Diastolic = Diastolic,
+        //             PatientSSN = patient.SSN,
+        //             DateTime = DateTime.Now,
+        //             Seen = false
+        //         };
 
-            // if (patient == null)
-            // {
-            //     Message = "Patient not found.";
-            //     return;
-            // }
+        //     // Save the measurement via the repository
+        //     await MeasurementRepository.AddAsync(newMeasurement);
 
-            // // Create a new measurement
-            // var newMeasurement = new Measurement
-            //     {
-            //         Systolic = Systolic,
-            //         Diastolic = Diastolic,
-            //         PatientSSN = patient.SSN,
-            //         DateTime = DateTime.Now,
-            //         Seen = false
-            //     };
-
-            // // Save the measurement via the repository
-            // await MeasurementRepository.AddAsync(newMeasurement);
-
-            // Message = "Measurement successfully saved.";
-        }
-        catch (Exception ex)
-        {
-            Message = $"Error: {ex.Message}";
-        }
+        //     Message = "Measurement successfully saved.";
+        // }
+        // catch (Exception ex)
+        // {
+        //     Message = $"Error: {ex.Message}";
+        // }
     }
 }
