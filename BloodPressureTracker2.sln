@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorUI", "DoctorUI\Doctor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Helpers", "Helpers\Helpers.csproj", "{7D491908-1C98-47CF-A8B5-6B1279B15D69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeasurementService", "MeasurementService\MeasurementService.csproj", "{0782CD94-FBF7-4AAE-B671-94BD0172C6D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeasurementService", "MeasurementService\MeasurementService.csproj", "{0782CD94-FBF7-4AAE-B671-94BD0172C6D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientService", "PatientService\PatientService.csproj", "{4D9C93BA-E2E0-4340-BA9F-588383531079}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientService", "PatientService\PatientService.csproj", "{4D9C93BA-E2E0-4340-BA9F-588383531079}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientApp", "PatientApp\PatientApp.csproj", "{894FD575-8434-4780-99D4-F13A42C45B1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,12 @@ Global
 		{4D9C93BA-E2E0-4340-BA9F-588383531079}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D9C93BA-E2E0-4340-BA9F-588383531079}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D9C93BA-E2E0-4340-BA9F-588383531079}.Release|Any CPU.Build.0 = Release|Any CPU
+		{894FD575-8434-4780-99D4-F13A42C45B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{894FD575-8434-4780-99D4-F13A42C45B1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{894FD575-8434-4780-99D4-F13A42C45B1B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{894FD575-8434-4780-99D4-F13A42C45B1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{894FD575-8434-4780-99D4-F13A42C45B1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{894FD575-8434-4780-99D4-F13A42C45B1B}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
